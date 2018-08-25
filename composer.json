@@ -1,0 +1,21 @@
+{
+    "name": "nowyn/bracket-checker",
+    "description": "Check round bracket sequence.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Elena",
+            "email": "danilova.elena.v@gmail.com"
+        }
+    ],
+    "require": {
+      "php": "5.6.*"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "Otus\\": "src/"
+        }
+    }
+}
