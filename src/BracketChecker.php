@@ -4,12 +4,10 @@ namespace Otus;
 
 class BracketChecker
 {
-    private $input;
     public static $allowedChars = ['(', ')', ' ', '\n', '\s', '\r', '\t'];
 
-    public function __construct($input)
+    public function __construct()
     {
-        $this->input = $input;
     }
 
     public function parseString($input)
@@ -19,7 +17,11 @@ class BracketChecker
             throw new \InvalidArgumentException('The string is empty.');
         }
 
-        $input = str_split($input);
+        if (!preg_match('/[\(\)\s\n\r\t ]/', $input)) {
+            throw new \InvalidArgumentException('The string contains not allowed characters. Please, use only \'(\', \')\', \' \', \'\n\', \'\s\', \'\r\' and \'\t\'');
+        }
+
+        $input = str_split(preg_replace('/[\s\n\r\t ]/', '', $input));
 
         if ($input[0] !== '(') {
             throw new \InvalidArgumentException('The string doesn\'t start with an opening bracket.');
@@ -40,15 +42,13 @@ class BracketChecker
 
         foreach ($input as $char) {
 
-            if (!in_array($char, self::$allowedChars)) {
-                throw new \InvalidArgumentException('The string contains not allowed characters. Please, use only \'(\', \')\', \' \', \'\n\', \'\s\', \'\r\' and \'\t\'');
-            }
             $sequence += ($char === '(') ? 1 : -1;
             if ($sequence < 0) {
                 throw new \InvalidArgumentException('Your sequence is wrong.');
             }
         }
-        $result = ($sequence == 0 && $result) ? true : false;
+
+        $result = ($sequence === 0 && $result) ? 'All good' : false;
 
         return $result;
 
